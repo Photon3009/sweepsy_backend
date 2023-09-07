@@ -15,7 +15,7 @@ const emailRoute = express.Router();
 emailRoute.get("/all", getAllGroup);
 emailRoute.post("/createGroup", createEmailGroup);
 emailRoute.patch("/edit/emailGroup/:id", editEmailGroup);
-emailRoute.delete("deleteList/:id", deleteEmailList);
+emailRoute.delete("/deleteList/:id", deleteEmailList);
 
 emailRoute.get("/list/all", getAllList);
 emailRoute.post("/createList/:id", createEmailList);

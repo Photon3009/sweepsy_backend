@@ -32,6 +32,7 @@ const getAllGroup = async (req, res) => {
   //create
 
   const createTaskGroup = async (req, res) => {
+    
     try {
       const token = req.headers.authorization.split(" ")[1];
       if (!token) {
@@ -41,6 +42,7 @@ const getAllGroup = async (req, res) => {
       jwt.verify(token, "secret_key", async (err, user) => {
         if (err) return res.status(403).json({ mssg: "Token not valid" });
         req.user = user;
+        console.log(token);
   
         const TaskName = req.body.TaskName;
         const createdBy = req.user.id;
