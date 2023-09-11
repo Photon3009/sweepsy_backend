@@ -32,7 +32,6 @@ const getAllGroup = async (req, res) => {
   //create
 
   const createTaskGroup = async (req, res) => {
-    
     try {
       const token = req.headers.authorization.split(" ")[1];
       if (!token) {
@@ -127,6 +126,7 @@ const createTaskList = async (req, res) => {
         const ProxyList = req.body.ProxyList
         const EmailListName = req.body.EmailListName
         const ProxyListName = req.body.ProxyListName
+        const SiteURL = req.body.SiteURL;
         // const AddressList = req.body.AddressList
   
         const email = await taskListModel.create({
@@ -136,6 +136,7 @@ const createTaskList = async (req, res) => {
           EmailListName,
           ProxyList,
           ProxyListName,
+          SiteURL,
           createdBy,
         });
         if (!email) {

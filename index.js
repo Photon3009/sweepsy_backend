@@ -9,6 +9,7 @@ const emailRoute = require("./routes/emailRoutes");
 const addressRoute = require("./routes/addressRoutes");
 const proxyRoutes = require("./routes/proxyRoutes");
 const taskRoute = require("./routes/taskRoutes");
+const verifiersRoute = require("./routes/verifiersRoutes");
 const app = express();
 
 app.use(cors());
@@ -31,7 +32,8 @@ app.use("/api/users", userRouter);
 app.use("/api/emails", emailRoute);
 app.use("/api/proxies", proxyRoutes);
 app.use("/api/tasks", taskRoute);
-app.use("/api/addresses", addressRoute)
+app.use("/api/addresses", addressRoute);
+app.use("/api/verifiers",verifiersRoute)
 
 mongoose
   .connect(process.env.MONGO_URI)

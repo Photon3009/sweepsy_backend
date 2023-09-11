@@ -23,24 +23,28 @@ const taskListModel = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    EmailList : {
+    EmailList : [{
         type: mongoose.Schema.Types.ObjectId,
         ref:'EmailLists',
         required: true
-    },
-    EmailListName:{
+    }],
+    EmailListName:[{
         type:String,
         required : false
-    },
-    ProxyList : {
+    }],
+    ProxyList : [{
         type: mongoose.Schema.Types.ObjectId,
         ref:'ProxyLists',
         required: true
-    },
-    ProxyListName:{
+    }],
+    ProxyListName:[{
         type:String,
         required : false
-    },
+    }],
+    SiteURL: {
+        type: String, // You can adjust the data type as needed (String for URL)
+        required: true, // Change to true if SiteURL is required
+      },
     // AddressList : {
     //     type: mongoose.Schema.Types.ObjectId,
     //     required: false
