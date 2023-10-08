@@ -1,4 +1,5 @@
 import time
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import sys
@@ -8,10 +9,11 @@ from selenium.webdriver.support import expected_conditions as EC
 
 url = "https://kingsumo.com/"
 
+os.system("pip install -U selenium")
+
 
 def run_selenium(email):
     driver = webdriver.Chrome()
-    # webdriver.Chrome("C:\Users\acer\Downloads\chromedriver-win64\chromedriver-win64\chromedriver.exe")
     driver.get(url)
 
     ele = driver.find_element(
