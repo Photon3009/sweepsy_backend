@@ -1,5 +1,5 @@
 const express = require("express");
-const { getAllGroup, createTaskGroup, editTaskGroup, createTaskList, getTaskList, deleteTaskGroup, addComments, getComments } = require("../controllers/taskController");
+const { getAllGroup, createTaskGroup, editTaskGroup, createTaskList, getTaskList, deleteTaskGroup, addComments, getComments, runTask } = require("../controllers/taskController");
 const taskRoute = express.Router();
 
 
@@ -14,5 +14,7 @@ taskRoute.post('/list/create/:id', createTaskList)
 
 taskRoute.patch('/comment/add/:id', addComments)
 
+//run
+taskRoute.post('/runTask', runTask)
 
 module.exports = taskRoute
