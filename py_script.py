@@ -9,8 +9,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 url = "https://kingsumo.com/"
 
-os.system("pip install -U selenium")
-
 
 def run_selenium(email):
     driver = webdriver.Chrome()
@@ -29,7 +27,7 @@ def run_selenium(email):
         button.click()
         time.sleep(2)
         driver.quit()
-        print(f"Success for {email}")
+        print("Success for " + email)
     except:
         print("Issue is ending data!")
 
