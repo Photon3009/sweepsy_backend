@@ -162,6 +162,75 @@ const createTaskList = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+// API to get task list details by ID
+const getTaskListById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate if the provided ID is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ mssg: "Invalid task list ID" });
+    }
+
+    // Find the task list by ID
+    const taskList = await taskListModel.findById(id);
+
+    // Check if the task list exists
+    if (!taskList) {
+      return res.status(404).json({ mssg: "Task list not found" });
+    }
+
+    // Return the task list details
+    res.status(200).json(taskList);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// API to edit task list data (update success and failure counts)
+const editTaskList = async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ mssg: "You are not authenticated" });
+    }
+
+    jwt.verify(token, "secret_key", async (err, user) => {
+      if (err) return res.status(403).json({ mssg: "Token not valid" });
+      req.user = user;
+
+      const { id } = req.params;
+      const { success, failed } = req.body;
+
+      // Validate if the provided ID is a valid MongoDB ObjectId
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ mssg: "Invalid task list ID" });
+      }
+
+      // Find the task list by ID
+      const taskList = await taskListModel.findById(id);
+
+      // Check if the task list exists
+      if (!taskList) {
+        return res.status(404).json({ mssg: "Task list not found" });
+      }
+
+      // Update success and failure counts
+      taskList.success = success || 0;
+      taskList.failed = failed || 0;
+
+      // Save the updated task list
+      const updatedTaskList = await taskList.save();
+
+      // Return the updated task list
+      res.status(200).json(updatedTaskList);
+    });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 const addComments = async (req, res) => {
   try {
     const { id } = req.params;
@@ -228,31 +297,6 @@ const getTaskList = async (req, res) => {
   }
 };
 
-const runTask = async (req, res) => {
-  console.log("hello");
-  const email = req.body.email;
-
-  // if (!email) {
-  //   return res
-  //     .status(400)
-  //     .json({ message: "Invalid input. Expected an array of emails." });
-  // }
-
-  exec(`python py_script.py ${email}`, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error: ${error}`);
-      res.status(500).json({ message: "Script execution failed" });
-    } else {
-      if (stdout != "Issue is ending data!") {
-        console.log(`Python script output: ${stdout}`);
-        res.status(200).json({ message: "Script executed successfully" });
-      } else {
-        res.status(500).json({ message: "Script execution failed" });
-      }
-    }
-  });
-};
-
 module.exports = {
   getAllGroup,
   createTaskGroup,
@@ -262,5 +306,6 @@ module.exports = {
   getTaskList,
   addComments,
   getComments,
-  runTask,
+  getTaskListById,
+  editTaskList,
 };
