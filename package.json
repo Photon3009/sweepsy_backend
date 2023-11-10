@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "preinstall": "python -m pip install -r requirements.txt",
     "start": "nodemon index.js",
     "dev": "nodemon index.js"
   },
