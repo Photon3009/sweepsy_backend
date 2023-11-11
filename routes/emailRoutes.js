@@ -2,6 +2,7 @@ const express = require("express");
 const {
   createEmailGroup,
   createEmailList,
+  getEmailListById,
   deleteEmailList,
   getAllList,
   getAllGroup,
@@ -19,6 +20,7 @@ emailRoute.delete("/deleteList/:id", deleteEmailList);
 
 emailRoute.get("/list/all", getAllList);
 emailRoute.post("/createList/:id", createEmailList);
+emailRoute.get("/emaillist/:id", getEmailListById);
 emailRoute.delete("/delete/list/:id", deleteEmailGroup);
 emailRoute.patch("/list/update/:id", editEmailList);
 

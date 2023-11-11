@@ -58,6 +58,30 @@ const createTaskGroup = async (req, res) => {
   }
 };
 
+const getTaskGroupById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate if the provided ID is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ mssg: "Invalid task group ID" });
+    }
+
+    // Find the task group by ID
+    const taskGroup = await taskGroupModel.findById(id);
+
+    // Check if the task group exists
+    if (!taskGroup) {
+      return res.status(404).json({ mssg: "Task group not found" });
+    }
+
+    // Return the task group details
+    res.status(200).json(taskGroup);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 //edit
 const editTaskGroup = async (req, res) => {
   try {
@@ -308,4 +332,5 @@ module.exports = {
   getComments,
   getTaskListById,
   editTaskList,
+  getTaskGroupById,
 };

@@ -146,6 +146,30 @@ const createEmailList = async (req, res) => {
   }
 };
 
+const getEmailListById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate if the provided ID is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ mssg: "Invalid email list ID" });
+    }
+
+    // Find the email list by ID
+    const emailList = await emailListModal.findById(id);
+
+    // Check if the email list exists
+    if (!emailList) {
+      return res.status(404).json({ mssg: "Email list not found" });
+    }
+
+    // Return the email list details
+    res.status(200).json(emailList);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 const deleteEmailList = async (req, res) => {
   try {
     const { id } = req.params;
@@ -187,7 +211,7 @@ const editEmailList = async (req, res) => {
       { _id: id },
       { ...req.body }
     );
-    if (!emailList) return res.status(400).json({ mssg: "Not Updated" }); 
+    if (!emailList) return res.status(400).json({ mssg: "Not Updated" });
     return res.status(200).json(emailList);
   } catch (err) {
     return res.status(400).json({ error: err.message });
@@ -220,4 +244,5 @@ module.exports = {
   deleteEmailGroup,
   editEmailList,
   editEmailGroup,
+  getEmailListById,
 };

@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
-const cors = require('cors')
+const cors = require("cors");
 const userRouter = require("./routes/usersRoute");
 const { default: mongoose } = require("mongoose");
 const emailRoute = require("./routes/emailRoutes");
@@ -13,9 +13,9 @@ const verifiersRoute = require("./routes/verifiersRoutes");
 const app = express();
 
 app.use(cors());
-app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.sendStatus(200);
 });
 
@@ -33,7 +33,7 @@ app.use("/api/emails", emailRoute);
 app.use("/api/proxies", proxyRoutes);
 app.use("/api/tasks", taskRoute);
 app.use("/api/addresses", addressRoute);
-app.use("/api/verifiers",verifiersRoute)
+app.use("/api/verifiers", verifiersRoute);
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -45,4 +45,3 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
