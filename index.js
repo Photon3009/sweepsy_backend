@@ -36,7 +36,9 @@ app.use("/api/addresses", addressRoute);
 app.use("/api/verifiers", verifiersRoute);
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(
+    "mongodb+srv://sv30092001:1ZwtgjJUwXM0tmtG@cluster0.kfsqlg4.mongodb.net/?retryWrites=true&w=majority"
+  )
   .then(() => {
     app.listen(port, () => {
       console.log(`Server running on:  ${port}`);

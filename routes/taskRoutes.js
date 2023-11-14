@@ -11,6 +11,7 @@ const {
   getTaskListById,
   editTaskList,
   getTaskGroupById,
+  updateTaskGroupStatus,
 } = require("../controllers/taskController");
 const taskRoute = express.Router();
 
@@ -19,6 +20,7 @@ taskRoute.post("/createTask", createTaskGroup);
 taskRoute.patch("/group/edit/:id", editTaskGroup);
 taskRoute.delete("/delete/:id", deleteTaskGroup);
 taskRoute.get("/group/:id", getTaskGroupById);
+taskRoute.put("/taskgroup/:id/update-status", updateTaskGroupStatus);
 
 //list
 taskRoute.get("/list/all", getTaskList);

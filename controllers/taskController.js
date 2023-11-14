@@ -100,6 +100,50 @@ const editTaskGroup = async (req, res) => {
   }
 };
 
+//update_success_failed_counts_taskGroup
+
+const updateTaskGroupStatus = async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ mssg: "You are not authenticated" });
+    }
+
+    jwt.verify(token, "secret_key", async (err, user) => {
+      if (err) return res.status(403).json({ mssg: "Token not valid" });
+      req.user = user;
+
+      const { id } = req.params;
+      const { failed, successful } = req.body;
+
+      // Validate if the provided ID is a valid MongoDB ObjectId
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ mssg: "Invalid task group ID" });
+      }
+
+      // Find the task group by ID
+      const taskGroup = await taskGroupModel.findById(id);
+
+      // Check if the task group exists
+      if (!taskGroup) {
+        return res.status(404).json({ mssg: "Task group not found" });
+      }
+
+      // Update Failed and Successful counts
+      taskGroup.Failed = failed || taskGroup.Failed;
+      taskGroup.Successful = successful || taskGroup.Successful;
+
+      // Save the updated task group
+      const updatedTaskGroup = await taskGroup.save();
+
+      // Return the updated task group
+      res.status(200).json(updatedTaskGroup);
+    });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 //delete
 const deleteTaskGroup = async (req, res) => {
   try {
@@ -333,4 +377,5 @@ module.exports = {
   getTaskListById,
   editTaskList,
   getTaskGroupById,
+  updateTaskGroupStatus,
 };
